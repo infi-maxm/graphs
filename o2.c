@@ -8,7 +8,7 @@ typedef struct node{
 }node;
 
 void add_edge(node*arr[],int a,int b){
-    node*newn=(node*)malloc(sizeof(newn));
+    node*newn=(node*)malloc(sizeof(node));
     newn->data=b;
     newn->next=arr[a];
     arr[a]=newn;
@@ -16,12 +16,15 @@ void add_edge(node*arr[],int a,int b){
 
 void bfs(node*arr[],int n,int v,int w){
     bool visited[n+1];
-
+    
     for(int i=1;i<=n;i++){
         visited[i]=false;
     }
-
-    int queue[n],distance[n+1];
+    visited[v]=true;
+    int queue[n+1],distance[n+1];
+    for(int i=1;i<=n;i++){
+       distance[i] = -1;
+    }
     int front=0,rear=0;
     queue[rear]=v;
     rear++;
@@ -32,7 +35,7 @@ void bfs(node*arr[],int n,int v,int w){
 
         if(r==w){
             printf("Distance of %d from %d :%d",w,v,distance[w]);
-            break;
+            return;
         }
 
         node*temp=arr[r];
@@ -46,6 +49,8 @@ void bfs(node*arr[],int n,int v,int w){
             temp=temp->next;
         }
     }
+
+    printf("-1 (Users not connected)");
 }
 
 int main(){
@@ -66,6 +71,7 @@ int main(){
         printf("Enter the edge pair(a,b):");
         scanf("%d%d",&a,&b);
         add_edge(arr,a,b);
+        add_edge(arr,b,a);
     }
     int v,w;
     printf("Enter starting user vertex:");
